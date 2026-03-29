@@ -34,6 +34,7 @@
 - `ALERT_STATUSES`：要告警的狀態（預設：`delayed,cancelled,diverted,incident`）
 - `LINE_CHANNEL_ACCESS_TOKEN`：LINE Messaging API channel access token
 - `LINE_TO`：接收通知的 LINE userId（U 開頭）或群組/聊天室 id
+- `TEST_PUSH`：手動測試開關（`1`=即使無異常也推播一次）
 
 ### 手動測試推播
 部署完成後可直接開：

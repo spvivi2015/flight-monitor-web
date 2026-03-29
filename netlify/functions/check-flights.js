@@ -20,6 +20,8 @@ exports.handler = async () => {
         .filter(Boolean)
     );
 
+    const forcePush = String(process.env.TEST_PUSH || "").trim() === "1";
+
     const summaries = [];
     const alerts = [];
 
@@ -46,8 +48,10 @@ exports.handler = async () => {
     }
 
     let pushed = false;
-    if (alerts.length) {
-      const message = buildAlertMessage(alerts);
+    if (alerts.length || forcePush) {
+      const message = forcePush
+        ? buildTestMessage(summaries)
+        : buildAlertMessage(alerts);
       await sendLine(message);
       pushed = true;
     }
@@ -96,6 +100,19 @@ function fmt(v) {
   } catch {
     return v;
   }
+}
+
+function buildTestMessage(summaries) {
+  const lines = ["🧪 航班監控測試推播（TEST_PUSH=1）", ""];
+  const top = summaries.slice(0, 3);
+  for (const x of top) {
+    if (!x || !x.flight) continue;
+    lines.push(`• ${x.flight} (${x.airline || "-"})`);
+    lines.push(`  狀態: ${x.status || "unknown"}`);
+    lines.push(`  航線: ${x.departure || "-"} → ${x.arrival || "-"}`);
+    lines.push("");
+  }
+  return lines.join("\n");
 }
 
 async function sendLine(text) {
