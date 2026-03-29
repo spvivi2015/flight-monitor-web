@@ -21,6 +21,26 @@
 ## 3) 完成
 部署後打開網站，輸入航班編號（例：`CI100`）即可查詢。
 
+## 推播版（已內建）
+
+新增了 `netlify/functions/check-flights.js`：
+- 每 15 分鐘排程檢查航班
+- 當狀態符合異常條件時推播到 LINE
+- 也可手動觸發檢查
+
+### 需要新增的環境變數
+- `AVIATIONSTACK_API_KEY`：aviationstack key
+- `TRACKED_FLIGHTS`：要追蹤的航班，逗號分隔（例：`CI100,BR55`）
+- `ALERT_STATUSES`：要告警的狀態（預設：`delayed,cancelled,diverted,incident`）
+- `LINE_CHANNEL_ACCESS_TOKEN`：LINE Messaging API channel access token
+- `LINE_TO`：接收通知的 LINE userId（U 開頭）或群組/聊天室 id
+
+### 手動測試推播
+部署完成後可直接開：
+- `https://<你的網域>/.netlify/functions/check-flights`
+
+若有異常狀態且 Telegram 參數正確，就會收到訊息。
+
 ## 注意
 - 目前資料源是 aviationstack（免費方案可能有更新延遲）
-- 若你要「回報推播」（Telegram/LINE），我可以再幫你補 Netlify Scheduled Function 版本
+- 排程函數預設每 15 分鐘檢查一次

@@ -61,8 +61,9 @@ function fmt(t) {
 }
 
 function render(x) {
+  const cls = statusClass(x.status);
   return `
-    <h3>${x.flight} · ${x.status}</h3>
+    <h3>${x.flight} <span class="status-pill ${cls}">${x.status}</span></h3>
     <div class="grid">
       <div><div class="k">航空公司</div><div class="v">${x.airline}</div></div>
       <div><div class="k">更新時間</div><div class="v">${fmt(x.updatedAt)}</div></div>
@@ -74,4 +75,12 @@ function render(x) {
       <div><div class="k">預估抵達</div><div class="v">${fmt(x.arrival.estimated)}</div></div>
     </div>
   `;
+}
+
+function statusClass(status){
+  const s=(status||'').toLowerCase();
+  if(['landed','active','scheduled'].includes(s)) return 'ok';
+  if(['delayed','incident','diverted'].includes(s)) return 'warn';
+  if(['cancelled'].includes(s)) return 'bad';
+  return '';
 }

@@ -8,10 +8,15 @@
   </head>
   <body>
     <main class="wrap">
-      <h1>✈️ Flight Monitor Web</h1>
-      <p>輸入航班編號（例如 <code>CI100</code>）即可即時查詢。</p>
+      <header class="hero card">
+        <div>
+          <h1>✈️ Flight Monitor Web</h1>
+          <p>輸入航班編號（例如 <code>CI100</code>）即可即時查詢。</p>
+        </div>
+        <span class="tag">Live</span>
+      </header>
 
-      <form id="form" class="card">
+      <form id="form" class="card search-card">
         <label for="flight">航班編號</label>
         <div class="row">
           <input id="flight" name="flight" placeholder="CI100" required />
