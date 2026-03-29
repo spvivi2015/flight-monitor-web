@@ -1,0 +1,48 @@
+flight-monitor-web 完整操作流程與指令
+
+一、專案位置
+C:\Users\user\.openclaw\workspace\flight-monitor-web
+
+二、本機先測（可選）
+cd C:\Users\user\.openclaw\workspace\flight-monitor-web
+npx netlify-cli dev
+
+本機測試網址：
+http://localhost:8888
+
+三、推到 GitHub
+cd C:\Users\user\.openclaw\workspace\flight-monitor-web
+git init
+git add .
+git commit -m "init flight-monitor-web"
+git branch -M main
+git remote add origin https://github.com/<你的帳號>/<你的repo>.git
+git push -u origin main
+
+四、Netlify 部署（網頁操作）
+1) 登入 Netlify
+2) Add new site -> Import an existing project
+3) 選你的 GitHub repo（flight-monitor-web）
+4) Build 設定確認：
+   - Publish directory: public
+   - Functions directory: netlify/functions
+   - build command 可留空
+
+五、設定 API Key（最重要）
+Netlify -> Site settings -> Environment variables -> Add variable
+Key: AVIATIONSTACK_API_KEY
+Value: 你的 aviationstack API key
+
+設定後重新部署（Deploys -> Trigger deploy）
+
+六、驗證 API 是否正常
+https://<你的-netlify-網域>/api/flight?flight=CI100
+
+有回 JSON 代表成功
+
+七、使用方式
+開啟首頁：
+https://<你的-netlify-網域>/
+
+輸入航班編號（例如 CI100）即可查詢
+可勾選「每 60 秒自動更新」
